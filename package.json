@@ -1,0 +1,58 @@
+{
+  "name": "opendirect-api",
+  "version": "1.0.0",
+  "description": "Reference implementation of OpenDirect OOH standard API",
+  "main": "dist",
+  "scripts": {
+    "prepare": "gulp build",
+    "start": "gulp",
+    "test": "nyc mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/cco-joshua/opendirect-api.git"
+  },
+  "keywords": [
+    "OpenDirect",
+    "OOH"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cco-joshua/opendirect-api/issues"
+  },
+  "homepage": "https://github.com/cco-joshua/opendirect-api#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.12.10",
+    "@babel/core": "^7.12.10",
+    "@babel/eslint-parser": "^7.12.1",
+    "@babel/eslint-plugin": "^7.12.1",
+    "@babel/plugin-transform-runtime": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "@babel/register": "^7.12.10",
+    "chai": "^4.2.0",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-clean": "^0.4.0",
+    "gulp-eslint": "^6.0.0",
+    "gulp-sourcemaps": "^3.0.0",
+    "mocha": "^8.2.1",
+    "nyc": "^15.1.0"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.12.1",
+    "@babel/runtime": "^7.12.5",
+    "boom": "^7.3.0",
+    "bunyan": "^1.8.15",
+    "countdown": "^2.6.0",
+    "kcors": "^2.2.2",
+    "koa": "^2.13.1",
+    "koa-bodyparser": "^4.3.0",
+    "koa-router": "^10.0.0",
+    "mongoose": "^5.11.11",
+    "mongoose-middleware": "^2.0.1",
+    "settings-lib": "^1.1.4",
+    "source-map-support": "^0.5.19",
+    "uuid": "^8.3.2"
+  }
+}

@@ -1,0 +1,10 @@
+.DS_Store
+/.nyc_output/
+/.mongo/
+/dist/
+/node_modules/
+/npm-debug.log
+/reports/
+/settings/*.yml
+!/settings/defaults.yml
+/test/sandbox
