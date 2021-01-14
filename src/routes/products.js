@@ -10,7 +10,20 @@ export default (app, models, self = {}) => {
     throw boom.notImplemented(`${ctx.request.method} ${ctx.request.url} not implemented`);
   });
 
+  router.get('/v1/products/:productId', async (ctx) => {
+    throw boom.notImplemented(`${ctx.request.method} ${ctx.request.url} not implemented`);
+  });
+
+  router.post('/v1/products/avails', async (ctx) => {
+    throw boom.notImplemented(`${ctx.request.method} ${ctx.request.url} not implemented`);
+  });
+
+  router.post('/v1/products/search', async (ctx) => {
+    throw boom.notImplemented(`${ctx.request.method} ${ctx.request.url} not implemented`);
+  });
+
   app.use(router.routes());
 
   return self;
 };
+

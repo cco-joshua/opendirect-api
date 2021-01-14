@@ -6,7 +6,13 @@ export default (app, models, self = {}) => {
 
   app.log.trace('routes.datasources: registering routes for /v1/datasources');
 
+  // not required
   router.get('/v1/datasources', async (ctx) => {
+    throw boom.notImplemented(`${ctx.request.method} ${ctx.request.url} not implemented`);
+  });
+
+  // not required
+  router.get('/v1/datasources/:dataSourceId', async (ctx) => {
     throw boom.notImplemented(`${ctx.request.method} ${ctx.request.url} not implemented`);
   });
 

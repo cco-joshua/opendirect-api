@@ -10,6 +10,10 @@ export default (app, models, self = {}) => {
     throw boom.notImplemented(`${ctx.request.method} ${ctx.request.url} not implemented`);
   });
 
+  router.get('/v1/organizations/:organizationId', async (ctx) => {
+    throw boom.notImplemented(`${ctx.request.method} ${ctx.request.url} not implemented`);
+  });
+
   app.use(router.routes());
 
   return self;

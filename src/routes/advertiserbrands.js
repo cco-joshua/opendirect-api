@@ -6,7 +6,13 @@ export default (app, models, self = {}) => {
 
   app.log.trace('routes.advertiserbrands: registering routes for /v1/advertiserbrands');
 
+  // not required
   router.get('/v1/advertiserbrands', async (ctx) => {
+    throw boom.notImplemented(`${ctx.request.method} ${ctx.request.url} not implemented`);
+  });
+
+  // not required
+  router.get('/v1/advertiserbrands/:advertiserBrandId', async (ctx) => {
     throw boom.notImplemented(`${ctx.request.method} ${ctx.request.url} not implemented`);
   });
 
