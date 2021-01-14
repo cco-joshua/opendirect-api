@@ -1,5 +1,10 @@
+import advertiserbrands from './advertiserbrands';
+import accounts from './accounts';
 import Boom from 'boom';
+import datasources from './datasources';
 import middleware from './middleware';
+import organizations from './organizations';
+import products from './products';
 import Router from 'koa-router';
 import status from './status';
 import version from './version';
@@ -21,6 +26,11 @@ export default async (app, models, self = {}) => {
   middleware(app, models);
 
   // register API routes
+  self.advertiserbrands = advertiserbrands(app, models);
+  self.accounts = accounts(app, models);
+  self.datasources = datasources(app, models);
+  self.organizations = organizations(app, models);
+  self.products = products(app, models);
   self.status = status(app, models);
   self.version = version(app, models);
 

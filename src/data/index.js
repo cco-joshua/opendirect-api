@@ -25,7 +25,7 @@ export default async (app, self = {}) => {
     throw new Error('the data layer is required for models');
   }
 
-  app.log.info('models: initializing model layer');
+  app.log.info('data: initializing data layer');
 
   // connect to the configured database
   await connectToDatabase(app);

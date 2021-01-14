@@ -46,7 +46,7 @@ export default (async (app) => {
 })(new Koa())
   .catch((ex) => {
     /* eslint no-console:0 */
-    console.error('Unable to start application due to exception')
+    console.error('Unable to start application due to exception');
     console.error(ex);
 
     if (ex.stackTrace) {
