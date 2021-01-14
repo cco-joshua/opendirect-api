@@ -32,3 +32,11 @@ Install the dependencies using `npm` from the root of the repository:
 ```bash
 npm i
 ```
+
+### Start API Server
+
+Gulp is used to watch the file system for changes, recompile and reload the API. To begin the development workflow server, simply execute the `npm start` command as follows from the root of the repository:
+
+```bash
+npm start
+```
