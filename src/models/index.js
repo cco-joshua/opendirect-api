@@ -1,4 +1,6 @@
 
+import initValidators from './validators';
+
 export default async (app, data, self = {}) => {
   if (!app) {
     throw new Error('application context is required for models');
@@ -10,14 +12,21 @@ export default async (app, data, self = {}) => {
 
   app.log.info('models: initializing model layer');
 
-  let request = {
-    log : app.log
-  };
+  let 
+    request = {
+      log : app.log
+    },
+    validators;
 
   self.setRequestLog = (log) => {
     request.log = log;
     data.setRequestLog(log);
   };
+
+  // initialize JSON schema validators
+  validators = await initValidators(app);
+
+
 
   return self;
 };

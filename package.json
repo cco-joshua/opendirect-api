@@ -45,6 +45,7 @@
     "boom": "^7.3.0",
     "bunyan": "^1.8.15",
     "countdown": "^2.6.0",
+    "jsonschema": "^1.4.0",
     "kcors": "^2.2.2",
     "koa": "^2.13.1",
     "koa-bodyparser": "^4.3.0",

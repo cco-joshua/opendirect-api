@@ -10,6 +10,8 @@ data:
   url: mongodb://localhost:27017/opendirect
 logging:
   level: info
+models:
+  schemaPath: ./schemas/v1
 server:
   port: 3080
   secure: false
