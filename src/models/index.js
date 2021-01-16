@@ -1,5 +1,6 @@
 
-import initValidators from './validators';
+import accounts from './accounts';
+import validators from './validators';
 
 export default async (app, data, self = {}) => {
   if (!app) {
@@ -12,21 +13,21 @@ export default async (app, data, self = {}) => {
 
   app.log.info('models: initializing model layer');
 
-  let 
-    request = {
-      log : app.log
-    },
-    validators;
+  let request = {
+    log : app.log
+  };
 
+  // used by middleware to apply a request correlation identifier to all
+  // logs for the inbound HTTP request
   self.setRequestLog = (log) => {
     request.log = log;
     data.setRequestLog(log);
   };
 
   // initialize JSON schema validators
-  validators = await initValidators(app);
+  self.validators = await validators(app);
 
-
+  self.accounts = accounts(app, request, self.validators, data);
 
   return self;
 };

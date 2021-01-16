@@ -56,3 +56,9 @@ Re: <https://github.com/Outsmart-OOH/ooh_open_direct/blob/master/docs/v1-1/OpenD
 * The changerequests URI should be pluralized for proper consistency and for REST best practices: Specify `/accounts/{id}/changerequests`, `/accounts/{id}/changerequests/{id}`, etc.
 * Consider adding a `DELETE` verb for changerequests lines: `DELETE` `/accounts/{id}/changerequests/{id}/lines/{id}` for consistency with other parts of the API (i.e. changerequests, orders, order lines)
 * Under reporting, `/accounts/{id}/orders/{id}/lines/stats` is defined as a supported URI: This is problematic because the `stats` action could actually be misattributed as the identifier for an order line in an implementation; recommend removing this entirely as `/acounts/{id}/orders/{id}/lines/{id}/stats` is also explicitly defined
+
+### JSON Schema Errors
+
+* `line_object.json` - the `$id` values for `Comment`, `Cost`, `OrderId`, `ProductId`, `ProviderData`, `ReservedExpiryDate`, `StartDate`, `StateChangeReason`, `Stats`, `ProductUnAvails`, and `ProductAvails` were incorrect (name conflicts)
+* `product_object.json` - the `$id` value for `Geometry` was incorrect (name collision)
+* `stats_object.json` - the `$id` for all fields were incorrect (name conflicts)

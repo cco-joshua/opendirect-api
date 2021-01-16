@@ -1,9 +1,53 @@
 import countdown from 'countdown';
 import fs from 'fs';
 import path from 'path';
-import { validate } from 'jsonschema';
+import { Request } from 'reqlib';
+import { Validator } from 'jsonschema';
+import { parse, URL } from 'url';
 
 export default async (app, self = {}) => {
+  function createValidator (schemaName, schemaJSON) {
+    return new Promise((resolve, reject) => {
+      let validator = new Validator();
+
+      app.log.debug('models.validators: creating JSON Schema validator for %s', schemaName);
+
+      validator.addSchema(schemaJSON);
+
+      app.log.debug(validator.unresolvedRefs);
+
+      return Promise.all((validator.unresolvedRefs || []).map((schemaURI) => new Promise((resolve, reject) => {
+        if (!schemaURI) {
+          return resolve();
+        }
+
+        let
+          begin = new Date(),
+          options = new URL(schemaURI),
+          req = new Request(options);
+
+        app.log.trace('models.validators: loading external schema %s', schemaURI);
+
+        return req
+          .get()
+          .then((result) => {
+            app.log.trace(result);
+
+            // add to schema
+
+            app.log.trace(
+              'models.validators: completed loading external schema %s in %s', 
+              schemaURI,
+              countdown(begin, new Date(), countdown.MILLISECONDS));
+    
+            return resolve();
+          })
+          .catch(reject);
+
+      }))).then(() => resolve(validator)).catch(reject);
+    }); 
+  }
+  
   function findSchemas (schemaPath) {
     return new Promise((resolve, reject) => {
       let begin = new Date();
@@ -62,22 +106,22 @@ export default async (app, self = {}) => {
 
   // load the JSON schema files for each file found and create a JSON schema validator
   await Promise.all(schemas.map((schema) => new Promise((resolve, reject) => {
-    let schemaPath = path.join(app.settings.models.schemaPath, schema);
+    let
+      schemaName = path.basename(schema, '_object.json'), 
+      schemaPath = path.join(app.settings.models.schemaPath, schema);
+
     app.log.debug('models.validators: loading OpenDirect JSON schema from %s', schemaPath);
 
     return readJSON(schemaPath)
-      .then((schemaJSON) => {
-        let schemaName = path.basename(schema, '_object.json');
-
-        app.log.debug('models.validators: creating JSON Schema validator for %s', schemaName);
-
+      .then((schemaJSON) => createValidator(schemaPath, schemaJSON))
+      .then((validator) => {
         self[schemaName] = (model) => {
-          app.log.trace('models.validators: validating model against schema for %s', schemaName);
-          return validate(model, schemaJSON);
-        };
+          app.log.debug('models.validators: validating model against schema for %s', schemaName);
 
-        return resolve();
+          return validator.validate(model, schemaJSON);
+        };
       })
+      .then(resolve)
       .catch(reject);
   })));
 

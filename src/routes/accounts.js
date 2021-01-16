@@ -8,12 +8,12 @@ export default (app, models, self = {}) => {
 
   // list all accounts for the organization specified via authorization
   router.get('/v1/accounts', async (ctx) => {
-    throw boom.notImplemented(`${ctx.request.method} ${ctx.request.url} not implemented`);
+    ctx.body = await models.accounts.search(ctx.request.queryOptions);
   });
 
   // create an account within the organization specified via authorization
   router.post('/v1/accounts', async (ctx) => {
-    throw boom.notImplemented(`${ctx.request.method} ${ctx.request.url} not implemented`);
+    ctx.body = await models.accounts.create(ctx.request.body);
   });
 
   // get a specific account from within the organization
