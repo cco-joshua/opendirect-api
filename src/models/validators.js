@@ -8,34 +8,38 @@ import { Validator } from 'jsonschema';
 export default async (app, request, self = {}) => {
   function createValidator (schemaName, schemaJSON) {
     return new Promise((resolve, reject) => {
-      let validator = new Validator();
+      let response = {
+        schemaJSON : schemaJSON,
+        validator : new Validator()
+      };
 
       app.log.debug('models.validators: creating JSON Schema validator for %s', schemaName);
 
-      validator.addSchema(schemaJSON);
+      response.validator.addSchema(schemaJSON);
 
-      app.log.debug(validator.unresolvedRefs);
+      if (!response.validator.unresolvedRefs || !response.validator.unresolvedRefs.length) {
+        return resolve(response);
+      }
 
-      return Promise.all((validator.unresolvedRefs || []).map((schemaURI) => new Promise((resolve, reject) => {
-        if (!schemaURI) {
-          return resolve();
-        }
-
-        let schemaPath = path.join(app.settings.models.schemaPath, path.basename(schemaURI));
-
-        app.log.debug('models.validators: loading OpenDirect referenced JSON schema from %s', schemaPath);
-
-        return readJSON(schemaPath)
-          .then((referencedSchemaJSON) => {
-            validator.addSchema(referencedSchemaJSON);
+      return Promise
+        .all((response.validator.unresolvedRefs || [])
+        .map((schemaURI) => new Promise((resolve, reject) => {
+          if (!schemaURI) {
             return resolve();
-          })
-          .catch(reject);
-      }))).then(() => resolve({
-        validator,
-        schemaJSON
-      })).catch(reject);
-    }); 
+          }
+
+          let schemaPath = path.join(app.settings.models.schemaPath, path.basename(schemaURI));
+
+          app.log.debug('models.validators: loading OpenDirect referenced JSON schema from %s', schemaPath);
+
+          return readJSON(schemaPath)
+            .then((referencedSchemaJSON) => {
+              response.validator.addSchema(referencedSchemaJSON);
+              return resolve();
+            })
+            .catch(reject);
+        }))).then(() => resolve(response)).catch(reject);
+      }); 
   }
   
   function findSchemas (schemaPath) {
