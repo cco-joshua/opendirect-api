@@ -1,6 +1,6 @@
 import accounts from './accounts';
 import mongoose from 'mongoose';
-import mongooseMiddleware from 'mongoose-middleware';
+import mongooseMiddleware from '@brozeph/mongoose-middleware';
 
 async function connectToDatabase (app) {
   if (mongoose.connection.readyState) {

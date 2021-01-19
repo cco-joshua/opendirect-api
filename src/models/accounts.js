@@ -125,7 +125,7 @@ export default (app, request, validators, data, self = {}) => {
       result,
       startTime = new Date();
 
-    result = []; // await data.accounts.search(options);
+    result = await data.accounts.search(options);
 
     request.log.debug(
       'models.accounts.search: completed search in %s',
