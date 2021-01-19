@@ -23,11 +23,11 @@ export default (app, models, self = {}) => {
       requestStart = new Date();
 
     // assign an ID to the request and create a child logger
-    log = app.log.child({ correlationId });
-    models.setRequestLog(log);
+    ctx.log = app.log.child({ correlationId });
+    models.setRequestLog(ctx.log);
 
     // await routing
-    app.log.trace(requestPrefix);
+    ctx.log.trace(requestPrefix);
 
     /* eslint callback-return:0 */
     await next();
@@ -36,8 +36,8 @@ export default (app, models, self = {}) => {
     // set response header and log...
     ctx.set('X-Correlation-Id', correlationId);
     ctx.set('X-Response-Time', duration.toString());
-    log.debug(
-      '%s %s- duration %s',
+    ctx.log.debug(
+      '%s %s: duration %s',
       requestPrefix,
       ctx.clientId ? `(clientId: ${ctx.clientId}) ` : '',
       duration.toString());
@@ -85,15 +85,15 @@ export default (app, models, self = {}) => {
 
       // log if necessary
       if (err.output.statusCode > DEFAULT_STATUS_CODE_LOG_LEVEL) {
-        app.log.error(
-          '%s %s - exception occurred: %s %s',
+        ctx.log.error(
+          '%s %s: exception occurred: %s %s',
           ctx.method,
           ctx.url,
           err.output.statusCode,
           err.output.payload.message || err.output.payload.error);
-        app.log.error(err.stack);
+        ctx.log.error(err.stack);
       } else {
-        app.log.warn(
+        ctx.log.warn(
           '%s %s: HTTP %s - %s',
           ctx.method,
           ctx.url,

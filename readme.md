@@ -59,6 +59,9 @@ Re: <https://github.com/Outsmart-OOH/ooh_open_direct/blob/master/docs/v1-1/OpenD
 
 ### JSON Schema Errors
 
+<https://github.com/Outsmart-OOH/ooh_open_direct/pull/20>
+
 * `line_object.json` - the `$id` values for `Comment`, `Cost`, `OrderId`, `ProductId`, `ProviderData`, `ReservedExpiryDate`, `StartDate`, `StateChangeReason`, `Stats`, `ProductUnAvails`, and `ProductAvails` were incorrect (name conflicts)
 * `product_object.json` - the `$id` value for `Geometry` was incorrect (name collision)
 * `stats_object.json` - the `$id` for all fields were incorrect (name conflicts)
+

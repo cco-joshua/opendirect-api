@@ -2,10 +2,10 @@ import countdown from 'countdown';
 import fs from 'fs';
 import path from 'path';
 import { Request } from 'reqlib';
+import { URL } from 'url';
 import { Validator } from 'jsonschema';
-import { parse, URL } from 'url';
 
-export default async (app, self = {}) => {
+export default async (app, request, self = {}) => {
   function createValidator (schemaName, schemaJSON) {
     return new Promise((resolve, reject) => {
       let validator = new Validator();
@@ -21,30 +21,20 @@ export default async (app, self = {}) => {
           return resolve();
         }
 
-        let
-          begin = new Date(),
-          options = new URL(schemaURI),
-          req = new Request(options);
+        let schemaPath = path.join(app.settings.models.schemaPath, path.basename(schemaURI));
 
-        app.log.trace('models.validators: loading external schema %s', schemaURI);
+        app.log.debug('models.validators: loading OpenDirect referenced JSON schema from %s', schemaPath);
 
-        return req
-          .get()
-          .then((result) => {
-            app.log.trace(result);
-
-            // add to schema
-
-            app.log.trace(
-              'models.validators: completed loading external schema %s in %s', 
-              schemaURI,
-              countdown(begin, new Date(), countdown.MILLISECONDS));
-    
+        return readJSON(schemaPath)
+          .then((referencedSchemaJSON) => {
+            validator.addSchema(referencedSchemaJSON);
             return resolve();
           })
           .catch(reject);
-
-      }))).then(() => resolve(validator)).catch(reject);
+      }))).then(() => resolve({
+        validator,
+        schemaJSON
+      })).catch(reject);
     }); 
   }
   
@@ -65,7 +55,7 @@ export default async (app, self = {}) => {
           schemaPath,
           countdown(begin, new Date(), countdown.MILLISECONDS));
 
-        return resolve(schemas);
+        return resolve(schemas.filter((schemaPath) => /\_object\.json$/.test(path.basename(schemaPath))));
       });
     });
   }
@@ -114,11 +104,11 @@ export default async (app, self = {}) => {
 
     return readJSON(schemaPath)
       .then((schemaJSON) => createValidator(schemaPath, schemaJSON))
-      .then((validator) => {
+      .then((result) => {
         self[schemaName] = (model) => {
-          app.log.debug('models.validators: validating model against schema for %s', schemaName);
+          request.log.debug('models.validators: validating model against schema for %s', schemaName);
 
-          return validator.validate(model, schemaJSON);
+          return result.validator.validate(model, result.schemaJSON);
         };
       })
       .then(resolve)

@@ -31,6 +31,12 @@ export default (app, request, validators, data, self = {}) => {
     let check = validators.account(account);
 
     if (!check.valid) {
+      request.log.error(
+        'unable to create account at index %d: %d validation errors found',
+        index,
+        check.errors.length,
+        check.errors);
+
       let err = boom.badRequest(`index (${ index }): account invalid with ${ check.errors.length } errors`);
       err.validationErrors = check.errors;
 
@@ -168,4 +174,4 @@ export default (app, request, validators, data, self = {}) => {
   };
 
   return self;
-}
+};

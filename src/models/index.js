@@ -25,7 +25,7 @@ export default async (app, data, self = {}) => {
   };
 
   // initialize JSON schema validators
-  self.validators = await validators(app);
+  self.validators = await validators(app, request);
 
   self.accounts = accounts(app, request, self.validators, data);
 

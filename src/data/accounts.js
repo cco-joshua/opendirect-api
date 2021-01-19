@@ -1,5 +1,5 @@
-import countdown from 'countdown';
 import accountSchema from './schemas/accounts';
+import countdown from 'countdown';
 import mongoose from 'mongoose';
 
 const
@@ -14,7 +14,7 @@ const
     lean : true
   };
 
-export default async (app, request, self = {}) => {
+export default (app, request, self = {}) => {
   app.log.trace('data.accounts: initializing data mapper for accounts');
 
   const Account = mongoose.model('Account', accountSchema);

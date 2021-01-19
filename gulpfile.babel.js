@@ -56,6 +56,8 @@ function stop (done) {
     return done();
 }
 
+exports.build = series(lint, clean, build);
+
 exports.default = series(
   clean,
   build,

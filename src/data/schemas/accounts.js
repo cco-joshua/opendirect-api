@@ -2,13 +2,7 @@ import * as plugins from './plugins.js';
 import { Schema } from 'mongoose';
 
 const AccountSchema = new Schema({
-  Id : {
-    index : { 
-      unique : true
-    },
-    required : true,
-    type : Schema.Types.String
-  },
+  
   AdvertiserId : {
     index : true,
     required : true,
@@ -19,8 +13,10 @@ const AccountSchema = new Schema({
     required : true,
     type : Schema.Types.String
   },
-  ThirdPartyId : {
-    index : true,
+  Id : {
+    index : { 
+      unique : true
+    },
     required : true,
     type : Schema.Types.String
   },
@@ -33,6 +29,11 @@ const AccountSchema = new Schema({
     index : false,
     required : false,
     type : Schema.Types.Mixed
+  },
+  ThirdPartyId : {
+    index : true,
+    required : true,
+    type : Schema.Types.String
   }
 }, {
   useNestedStrict : true

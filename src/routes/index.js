@@ -1,5 +1,5 @@
-import advertiserbrands from './advertiserbrands';
 import accounts from './accounts';
+import advertiserbrands from './advertiserbrands';
 import Boom from 'boom';
 import datasources from './datasources';
 import middleware from './middleware';
@@ -36,7 +36,7 @@ export default async (app, models, self = {}) => {
 
   // 404s
   app.use(async (ctx) => {
-    throw Boom.notFound(`${ctx.method} ${ctx.url} - does not exist`);
+    throw Boom.notFound(`${ctx.method} ${ctx.url}: does not exist`);
   });
 
   // hook up error handlers

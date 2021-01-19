@@ -5,6 +5,7 @@
   "main": "dist",
   "scripts": {
     "prepare": "gulp build",
+    "pretest": "gulp lint",
     "start": "gulp",
     "test": "nyc mocha"
   },
@@ -52,7 +53,7 @@
     "koa-router": "^10.0.0",
     "mongoose": "^5.11.11",
     "mongoose-middleware": "^2.0.1",
-    "reqlib": "^1.0.11",
+    "reqlib": "^1.0.12",
     "settings-lib": "^1.1.4",
     "source-map-support": "^0.5.19",
     "uuid": "^8.3.2"
