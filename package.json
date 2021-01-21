@@ -7,7 +7,8 @@
     "prepare": "gulp build",
     "pretest": "gulp lint",
     "start": "gulp",
-    "test": "nyc mocha"
+    "test": "nyc mocha --recursive",
+    "test:unit": "nyc mocha --recursive"
   },
   "repository": {
     "type": "git",
@@ -43,7 +44,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
     "@babel/runtime": "^7.12.5",
-    "@brozeph/mongoose-middleware": "^3.0.0",
+    "@brozeph/mongoose-middleware": "^3.1.1",
     "boom": "^7.3.0",
     "bunyan": "^1.8.15",
     "countdown": "^2.6.0",
@@ -52,7 +53,7 @@
     "koa": "^2.13.1",
     "koa-bodyparser": "^4.3.0",
     "koa-router": "^10.0.0",
-    "mongoose": "^5.11.11",
+    "mongoose": "^5.11.13",
     "reqlib": "^1.0.12",
     "settings-lib": "^1.1.4",
     "source-map-support": "^0.5.19",

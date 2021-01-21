@@ -1,15 +1,13 @@
 import countdown from 'countdown';
 import fs from 'fs';
 import path from 'path';
-import { Request } from 'reqlib';
-import { URL } from 'url';
 import { Validator } from 'jsonschema';
 
 export default async (app, request, self = {}) => {
   function createValidator (schemaName, schemaJSON) {
     return new Promise((resolve, reject) => {
       let response = {
-        schemaJSON : schemaJSON,
+        schemaJSON,
         validator : new Validator()
       };
 

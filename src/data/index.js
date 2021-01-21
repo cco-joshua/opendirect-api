@@ -22,10 +22,6 @@ export default async (app, self = {}) => {
     throw new Error('application context is required for models');
   }
 
-  if (!app) {
-    throw new Error('the data layer is required for models');
-  }
-
   app.log.info('data: initializing data layer');
 
   // connect to the configured database

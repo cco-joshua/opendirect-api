@@ -18,7 +18,6 @@ export default (app, models, self = {}) => {
     let
       correlationId = ctx.get('X-Correlation-Id') || ctx.get('x-correlation-id') || v4(),
       duration,
-      log,
       requestPrefix = `${ctx.method} ${ctx.path}`,
       requestStart = new Date();
 
@@ -53,6 +52,18 @@ export default (app, models, self = {}) => {
         filters : parsedQueryString.filters || {},
         sort : parsedQueryString.sort,
         start : parseInt(parsedQueryString.start, BASE_TEN) || DEFAULT_OPTIONS_START
+      };
+
+      // expose convience method for adding filters based on querystring parameters
+      ctx.request.queryOptions.addQueryFilter = (name, value) => {
+        if (!name || !value) {
+          return;
+        }
+
+        let filters = ctx.request.queryOptions.filters;
+        filters.mandatory = filters.mandatory || {};
+        filters.mandatory.exact = filters.mandatory.exact || {};
+        filters.mandatory.exact[name] = value;
       };
     }
 

@@ -77,10 +77,6 @@ export default (app, request, validators, data, self = {}) => {
       throw boom.badRequest('an identifier is required to lookup a account');
     }
 
-    request.log.trace(
-      'models.accounts.lookup: beginning to lookup a account with identifier %s',
-      key);
-
     let
       account,
       options = {},
@@ -89,6 +85,10 @@ export default (app, request, validators, data, self = {}) => {
     if (RE_KEY_ACCOUNT_ID.test(key)) {
       options.Id = key.replace(RE_KEY_ACCOUNT_ID, '') || key;
     }
+
+    request.log.trace(
+      'models.accounts.lookup: beginning to lookup a account with identifier %s',
+      options.Id);
 
     try {
       account = await data.accounts.retrieve(options);
@@ -101,7 +101,7 @@ export default (app, request, validators, data, self = {}) => {
     }
 
     if (!account) {
-      throw boom.notFound(`account "${key}" not found`);
+      throw boom.notFound(`account "${ options.Id }" not found`);
     }
 
     request.log.debug(

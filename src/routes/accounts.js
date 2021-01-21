@@ -8,6 +8,10 @@ export default (app, models, self = {}) => {
 
   // list all accounts for the organization specified via authorization
   router.get('/v1/accounts', async (ctx) => {
+    ['AdvertiserId', 'BuyerId', 'ThirdPartyId'].forEach((queryParam) => {
+      ctx.request.queryOptions.addQueryFilter(queryParam, ctx.request.query[queryParam]);
+    });
+
     ctx.body = await models.accounts.search(ctx.request.queryOptions);
   });
 
@@ -18,7 +22,7 @@ export default (app, models, self = {}) => {
 
   // get a specific account from within the organization
   router.get('/v1/accounts/:accountId', async (ctx) => {
-    throw boom.notImplemented(`${ctx.request.method} ${ctx.request.url} not implemented`);
+    ctx.body = await models.accounts.lookup(ctx.params.accountId);
   });
 
   app.log.trace('routes.accounts: registering routes for /v1/accounts/{id}/assignments');
